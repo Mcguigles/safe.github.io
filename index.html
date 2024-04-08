@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENIGMA</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url('https://i.ibb.co/J5G9cRX/434183186-386066450895480-4636105722988696539-n.jpg'); /* Replace 'your-background-image.jpg' with the path to your image */
+        background-size: cover; /* Cover the entire background */
+        background-position: center; /* Center the background image */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #game-container {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        color: orange; /* Set font color to orange */
+        text-shadow: -1px -1px 0 white,  
+                      1px -1px 0 white,
+                     -1px  1px 0 white,
+                      1px  1px 0 white; /* Add white outline */
+                      font-size: 28px; /* Adjust the font size as needed */
+    }
+    h2 {
+        font-weight: bold;
+        color: orange;
+    }
+    #output {
+        margin-top: 20px;
+    }
+    input[type="text"] {
+        width: 40px; /* Adjust the width as needed */
+        height: 40px; /* Adjust the height as needed */
+        font-size: 24px; /* Adjust the font size as needed */
+        text-align: center; /* Center-align the text */
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <h2>ENIGMA</h2>
+    <p>Will it be you?</p>
+    <form id="guessForm">
+        <input type="text" id="digit1" name="digit1" maxlength="1" inputmode="numeric" pattern="\d*" required oninput="moveToNext(this, 'digit2')">
+        <input type="text" id="digit2" name="digit2" maxlength="1" inputmode="numeric" pattern="\d*" required oninput="moveToNext(this, 'digit3')">
+        <input type="text" id="digit3" name="digit3" maxlength="1" inputmode="numeric" pattern="\d*" required>
+        <button type="submit" id="submitButton">UNLOCK!</button>
+    </form>
+    <div id="output"></div>
+</div>
+
+<script>
+    function moveToNext(currentInput, nextInputId) {
+        if (currentInput.value.length === currentInput.maxLength) {
+            if (nextInputId) {
+                document.getElementById(nextInputId).focus();
+            } else {
+                currentInput.blur(); // Remove focus from the last input
+            }
+        }
+    }
+
+    document.getElementById("guessForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        checkGuess(); // Handle the guess
+    });
+
+    function checkGuess() {
+        // Get the values from the input boxes
+        var digit1 = document.getElementById("digit1").value;
+        var digit2 = document.getElementById("digit2").value;
+        var digit3 = document.getElementById("digit3").value;
+
+        // Perform your logic to check the guess and display the result
+        var output = document.getElementById("output");
+        if (digit1 === "1" && digit2 === "2" && digit3 === "3") {
+            output.textContent = "Congratulations! You've cracked the safe!";
+        } else {
+            output.textContent = "Sorry, Better luck next time!";
+            clearNumberBoxesAndMessageAfterDelay(); // Clear the number boxes and message after 3 seconds
+        }
+    }
+
+    function clearNumberBoxesAndMessageAfterDelay() {
+        setTimeout(function() {
+            document.getElementById("digit1").value = "";
+            document.getElementById("digit2").value = "";
+            document.getElementById("digit3").value = "";
+            document.getElementById("output").textContent = ""; // Clear the message
+        }, 5000);
+    }
+</script>
+</body>
+</html>
